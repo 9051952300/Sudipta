@@ -39,13 +39,13 @@ namespace SimpleAuthProject
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrdersRepostiory, OrdersRepository>();
             services.AddScoped<JwtService>();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("LocalPolicy", policy =>
-                {
-                    policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("LocalPolicy", policy =>
+            //    {
+            //        policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials();
+            //    });
+            //});
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiCore", Version = "v1" });
@@ -64,11 +64,17 @@ namespace SimpleAuthProject
 
             app.UseRouting();
             //global cor policy//
-            app.UseCors("LocalPolicy");
-            
+            app.UseCors(options => options
+            .WithOrigins(new[] { "https://radiant-reef-65761.herokuapp.com" })
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            );
             
 
-            
+
+
+
 
             app.UseEndpoints(endpoints =>
             {

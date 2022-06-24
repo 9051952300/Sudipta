@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using pharmacyManagementWebApiservice.Dto;
 using pharmacyManagementWebApiservice.Helper;
@@ -10,6 +11,7 @@ namespace pharmacyManagementWebApiservice.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     
     public class AuthController : ControllerBase
     {
@@ -52,6 +54,8 @@ namespace pharmacyManagementWebApiservice.Controllers
             Response.Cookies.Append("jwt", jwtstring, new CookieOptions
             {
                 HttpOnly = true,
+                SameSite = SameSiteMode.None,
+                Secure = true
             });
             //if login is correct then message sucess//
             return Ok(new
